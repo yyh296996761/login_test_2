@@ -1,20 +1,25 @@
-package com.example.administrator.login_test;
+package com.example.administrator.login_test.activity;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.administrator.login_test.ApplicationData;
+import com.example.administrator.login_test.R;
+import com.example.administrator.login_test.User;
+import com.example.administrator.login_test.UserAction;
+import com.example.administrator.login_test.VerifyUtils;
+
 import java.util.concurrent.Executors;
 
+
+//登录
 public class LoginActivity extends AppCompatActivity {
 
 
@@ -71,16 +76,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             protected void onPreExecute() {//开始时，直到
                 super.onPreExecute();
-//                showLoadingDialog("正在登录,请稍后...");
 
-
-//                ProgressDialog waitingDialog=
-//                        new ProgressDialog(LoginActivity.this);
-//                waitingDialog.setTitle("我是一个等待Dialog");
-//                waitingDialog.setMessage("等待中...");
-//                waitingDialog.setIndeterminate(true);
-//                waitingDialog.setCancelable(false);
-//                waitingDialog.show();
             }
 
             @Override
@@ -89,8 +85,10 @@ public class LoginActivity extends AppCompatActivity {
                 User user = new User();
                 user.setAccount(account);
                 user.setPassword(password);
-                userAction.loginVerify(user, mContext);//验证登录
+                UserAction.loginVerify(user, mContext);//验证登录
 
+                while(!ApplicationData.getInstance().isReceived());
+                ApplicationData.getInstance().setIsReceived(false);
 
                 return ApplicationData.getInstance().getUserInfo().getId();
 
@@ -106,11 +104,14 @@ public class LoginActivity extends AppCompatActivity {
                 int getid = ApplicationData.getInstance().getUserInfo().getId();
                 if (getid != -1 && getid != 0) {
 //                    Toast.makeText(mContext,"id："+String.valueOf(getid),Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(mContext, SuccessActivity.class);
-                    startActivity(intent);
+//                    Intent intent = new Intent(mContext, SuccessActivity.class);
+//                    startActivity(intent);
+                    Toast.makeText(mContext, "登录成功", Toast.LENGTH_LONG).show();
+
                     finish();
 
                 } else {
+
                     Toast.makeText(mContext, "无此人,id为:"+getid, Toast.LENGTH_LONG).show();
                 }
 

@@ -18,12 +18,17 @@ public class User implements Serializable {
      *
      */
     private static final long serialVersionUID = 1L;
-    private int id;
+    private int id = -1;
     private String account;
     private String userName;
     private String password;
     private Date birthday;
     private int gender; // 0代表女生 1代表男生
+
+    private int dorm; //1：AB 2：CD  。。。。
+
+
+
     private boolean isOnline;
     private String location;
     private byte[] photo;
@@ -142,6 +147,17 @@ public class User implements Serializable {
     public void setLocation(String location) {
         this.location = location;
     }
+
+    public int getDorm() {
+        return dorm;
+    }
+
+    public void setDorm(int dorm) {
+        this.dorm = dorm;
+    }
+
+
+
 
     @Override
     public boolean equals(Object o) {
